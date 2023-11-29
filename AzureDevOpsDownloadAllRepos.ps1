@@ -16,12 +16,12 @@ Set-Location -Path $ArchiveLocation\$Project
 # download the TFVC repository if it exists
 
 
-$tfvc = Invoke-RestMethod -Uri "https://dev.azure.com/$Organization/$Project/_apis/tfvc/items?api-version=7.1-preview.1"  -Method Get -ContentType "application/json" -Headers $ADOHeaders 
+$tfvc = Invoke-RestMethod -Uri "https://dev.azure.com/$Organization/$Project/_apis/tfvc/items?api-version=7.0"  -Method Get -ContentType "application/json" -Headers $ADOHeaders 
 
 if ($tfvc.count -ne "0")
 {
     Invoke-WebRequest `
-    -Uri "https://dev.azure.com/$Organization/$Project/_apis/tfvc/items?path=/&download=true&api-version=7.1-preview.1" `
+    -Uri "https://dev.azure.com/$Organization/$Project/_apis/tfvc/items?path=/&download=true&api-version=7.0" `
     -Headers $ADOHeaders `
     -OutFile $ArchiveLocation\$Project\TFVC-Repo-$Project.zip
 
@@ -33,7 +33,7 @@ else
 
 # Iterate through the repos
 
-$repos = Invoke-RestMethod -Uri "https://dev.azure.com/$Organization/$Project/_apis/git/repositories?api-version=5.0" `
+$repos = Invoke-RestMethod -Uri "https://dev.azure.com/$Organization/$Project/_apis/git/repositories?api-version=7.0" `
      -Headers $ADOHeaders 
 
 if ($repos.value -eq $null)
